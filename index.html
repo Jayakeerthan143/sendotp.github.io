@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send OTP via Email with EmailJS</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Send OTP via Email with EmailJS</h1>
+    <form id="emailForm">
+        <label for="emailInput">To (Gmail address):</label>
+        <input type="email" id="emailInput" pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" placeholder="Enter a Gmail address" required>
+        <button type="submit">Send OTP</button>
+    </form>
+
+    <script>
+        (function() {
+            emailjs.init('BxI-vg3Y5z3WAJQaT');
+        })();
+
+        document.getElementById('emailForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const recipientEmail = document.getElementById('emailInput').value;
+            const otp = Math.floor(1000 + Math.random() * 9000);
+
+            // Store the OTP in localStorage
+            localStorage.setItem('generatedOtp', otp);
+
+            emailjs.send('service_vagqxnf', 'template_9j25zfq', {
+                to_name: recipientEmail,
+                otp: otp,
+            })
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                console.log('Recipient email:', recipientEmail);
+                alert('OTP sent successfully to ' + recipientEmail);
+                
+                // Navigate to the OTP page after successfully sending the OTP
+                window.location.href = "otp.html";
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('Failed to send OTP. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

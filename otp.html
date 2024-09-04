@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter OTP</h1>
+    <form id="otpForm">
+        <label for="otpInput">OTP:</label>
+        <input type="text" id="otpInput" placeholder="Enter the OTP" required>
+        <button type="submit">Validate OTP</button>
+    </form>
+
+    <script>
+        document.getElementById('otpForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const enteredOtp = document.getElementById('otpInput').value;
+            const storedOtp = localStorage.getItem('generatedOtp');
+
+            if (enteredOtp === storedOtp) {
+                alert('OTP is correct!');
+                // Optionally, navigate to a success page
+                window.location.href = "success.html";
+            } else {
+                alert('Invalid OTP. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
